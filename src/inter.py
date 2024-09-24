@@ -9,6 +9,8 @@ class Interface(QtWidgets.QWidget):
         self.WINDOW_HEIGHT = 600
         self.WINDOW_WIDTH = 400
         
+        # Window Configuration
+        self.setWindowTitle('Password Vault')
         self.setFixedSize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
 
         # Load stylesheet
@@ -30,6 +32,7 @@ class Interface(QtWidgets.QWidget):
         # Logo
         #pixmap_logo = QtGui.QPixmap()
         widget_logo =  QtWidgets.QLabel('logo here')
+        #widget_logo.setPixmap(pixmap_logo)
 
         # Select Plaform Area
         platform_layout = QtWidgets.QVBoxLayout()

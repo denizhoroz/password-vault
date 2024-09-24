@@ -1,0 +1,9 @@
+/*
+color palette reference: 
+
+
+*/
+
+QWidget {
+    background-color: #000000;
+}

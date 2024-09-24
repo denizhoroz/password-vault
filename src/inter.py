@@ -11,8 +11,16 @@ class Interface(QtWidgets.QWidget):
         
         self.setFixedSize(self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
 
+        # Load stylesheet
+        self.load_stylesheet()
+
         # Initialize UI
         self.initialize_ui()
+
+    def load_stylesheet(self):
+        with open('src/style.qss', 'r') as file:
+            stylesheet = file.read()
+            self.setStyleSheet(stylesheet)
 
     def initialize_ui(self):
         main_layout = QtWidgets.QVBoxLayout()
@@ -50,7 +58,6 @@ class Interface(QtWidgets.QWidget):
         password_layout.addWidget(text_password)
         group_password.setLayout(password_layout)
 
-        
         # Configure Layout
         main_layout.addWidget(widget_logo)
         main_layout.addWidget(group_platform)

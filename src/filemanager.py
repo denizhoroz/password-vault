@@ -22,7 +22,7 @@ class FileManager:
 
             self.accounts_list.append(account_info)
         
-    def add_account(self, platform, username, email, password):
+    def add_account(self, platform, username, email, password, xml_file):
         new_account = self.domtree.createElement('account')
         new_id = str(self.create_id())
         new_account.setAttribute('id', new_id)
@@ -43,7 +43,7 @@ class FileManager:
 
         self.group.appendChild(new_account)
 
-        self.domtree.writexml(open('data/database.xml', 'w'))
+        self.domtree.writexml(open(xml_file, 'w'))
 
     def create_id(self):
         new_id = 1

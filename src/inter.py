@@ -8,6 +8,8 @@ class Interface(QtWidgets.QWidget):
         # Constants
         self.WINDOW_HEIGHT = 600
         self.WINDOW_WIDTH = 400
+
+        self.list_options = ['ADD NEW ACCOUNT',]
         
         # Window Configuration
         self.setWindowTitle('Password Vault')
@@ -30,26 +32,41 @@ class Interface(QtWidgets.QWidget):
         ## Initialize groups ##
         
         # Logo
-        #pixmap_logo = QtGui.QPixmap()
+        pixmap_logo = QtGui.QPixmap('assets/logo.png')
         widget_logo =  QtWidgets.QLabel('logo here')
-        #widget_logo.setPixmap(pixmap_logo)
+        widget_logo.setPixmap(pixmap_logo)
 
         # Select Plaform Area
-        platform_layout = QtWidgets.QVBoxLayout()
+        platform_layout = QtWidgets.QHBoxLayout()
 
-        group_platform = QtWidgets.QGroupBox("Select Plaform")
-        box_platforms = QtWidgets.QComboBox()
+        group_platform = QtWidgets.QGroupBox("Select Account")
+        self.box_platforms = QtWidgets.QComboBox()
+        self.box_platforms.addItem('ADD NEW ACCOUNT')
 
-        platform_layout.addWidget(box_platforms)
+        add_button = QtWidgets.QPushButton('Add')
+        add_button.setFixedWidth(50)
+        add_button.clicked.connect(self.action_add)
+
+        delete_button = QtWidgets.QPushButton('Delete')
+        delete_button.setFixedWidth(50)
+        delete_button.clicked.connect(self.action_delete)
+
+        platform_layout.addWidget(self.box_platforms)
+        platform_layout.addWidget(add_button)
+        platform_layout.addWidget(delete_button)
         group_platform.setLayout(platform_layout)
 
         # Enter Credentials Area
         credentials_layout = QtWidgets.QVBoxLayout()
 
-        group_credentials = QtWidgets.QGroupBox("Enter Your Username or E-mail")
-        text_credentials = QtWidgets.QTextEdit()
+        group_credentials = QtWidgets.QGroupBox("Your Username and E-mail")
+        text_username = QtWidgets.QTextBrowser()
+        text_email = QtWidgets.QTextBrowser()
+        text_username.setFixedHeight(30)
+        text_email.setFixedHeight(30)
 
-        credentials_layout.addWidget(text_credentials)
+        credentials_layout.addWidget(text_username)
+        credentials_layout.addWidget(text_email)
         group_credentials.setLayout(credentials_layout)
 
         # Output Password Area
@@ -67,6 +84,12 @@ class Interface(QtWidgets.QWidget):
         main_layout.addWidget(group_credentials)
         main_layout.addWidget(group_password)
         self.setLayout(main_layout)
+
+    def action_add(self):
+        print('add')
+
+    def action_delete(self):
+        print('delete')
 
 
 if __name__ == '__main__':

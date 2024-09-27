@@ -45,6 +45,9 @@ class FileManager:
 
         self.domtree.writexml(open(xml_file, 'w'))
 
+        # Update domtree 
+        self.load_xml(xml_file)
+
     def create_id(self):
         new_id = 1
         while str(new_id) in self.ids:

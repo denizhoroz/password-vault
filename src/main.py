@@ -5,15 +5,16 @@ from filemanager import FileManager
 
 if __name__ == '__main__':
     
+    # Load account database
+    xml_file = 'data/database.xml'
+    manager = FileManager()
+    manager.load_xml(xml_file)
+
     # Start application
     app = QtWidgets.QApplication([])
 
-    interface = Interface()
+    interface = Interface(manager, xml_file)
     interface.show()
-
-    # Load account database
-    manager = FileManager()
-    manager.load_xml('data/database.xml')
 
     # Add platforms to combobox
     platforms = []
@@ -21,7 +22,6 @@ if __name__ == '__main__':
         platforms.append(account['platform'])
 
     interface.box_platforms.addItems(platforms)
-
 
 
     sys.exit(app.exec())

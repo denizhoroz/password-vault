@@ -48,12 +48,19 @@ class FileManager:
         # Update domtree 
         self.load_xml(xml_file)
 
+    def delete_account(self, del_username, xml_file):
+        for account in self.accounts:
+            account_username = account.getElementsByTagName('username')[0].childNodes[0].nodeValue
+            if account_username == del_username:
+                self.group.removeChild(account)
+                self.domtree.writexml(open(xml_file, 'w'))
+                self.load_xml(xml_file)
+
     def create_id(self):
         new_id = 1
         while str(new_id) in self.ids:
             new_id += 1
         return new_id
-
 
 if __name__ == '__main__':
     manager = FileManager()

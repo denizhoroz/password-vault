@@ -45,10 +45,9 @@ class Interface(QtWidgets.QWidget):
         platform_layout = QtWidgets.QHBoxLayout()
 
         group_platform = QtWidgets.QGroupBox("Select Account")
-        self.box_platforms = QtWidgets.QComboBox()
-        self.box_platforms.addItem('ADD NEW ACCOUNT')
-        self.box_platforms.addItem('ADD NEW ACCOUNT2')
-        self.box_platforms.currentIndexChanged.connect(self.on_index_changed)
+        self.box_accounts = QtWidgets.QComboBox()
+        self.box_accounts.addItem('ADD NEW ACCOUNT')
+        self.box_accounts.currentIndexChanged.connect(self.on_index_changed)
 
         add_button = QtWidgets.QPushButton('Add')
         add_button.setFixedWidth(50)
@@ -58,7 +57,7 @@ class Interface(QtWidgets.QWidget):
         delete_button.setFixedWidth(50)
         delete_button.clicked.connect(self.action_delete)
 
-        platform_layout.addWidget(self.box_platforms)
+        platform_layout.addWidget(self.box_accounts)
         platform_layout.addWidget(add_button)
         platform_layout.addWidget(delete_button)
         group_platform.setLayout(platform_layout)
@@ -77,8 +76,8 @@ class Interface(QtWidgets.QWidget):
         self.credentials_layout = QtWidgets.QVBoxLayout()
 
         group_credentials = QtWidgets.QGroupBox("Your Username and E-mail")
-        self.input_username = QtWidgets.QTextBrowser()
-        self.input_email = QtWidgets.QTextBrowser()
+        self.input_username = QtWidgets.QTextEdit()
+        self.input_email = QtWidgets.QTextEdit()
         self.input_username.setFixedHeight(30)
         self.input_email.setFixedHeight(30)
 
@@ -90,7 +89,7 @@ class Interface(QtWidgets.QWidget):
         self.password_layout = QtWidgets.QVBoxLayout()
 
         group_password = QtWidgets.QGroupBox("Your Password")
-        self.input_password = QtWidgets.QTextBrowser()
+        self.input_password = QtWidgets.QTextEdit()
 
         self.password_layout.addWidget(self.input_password)
         group_password.setLayout(self.password_layout)
@@ -119,7 +118,7 @@ class Interface(QtWidgets.QWidget):
             self.input_email.setFixedHeight(30)
 
             self.credentials_layout.insertWidget(0, self.input_username)
-            self.credentials_layout.insertWidget(0, self.input_email)
+            self.credentials_layout.insertWidget(1, self.input_email)
             self.password_layout.insertWidget(0, self.input_password)
 
             # add a new platform entry area
@@ -152,11 +151,11 @@ class Interface(QtWidgets.QWidget):
             self.text_email.setFixedHeight(30)
 
             self.credentials_layout.insertWidget(0, self.text_username)
-            self.credentials_layout.insertWidget(0, self.text_email)
+            self.credentials_layout.insertWidget(1, self.text_email)
             self.password_layout.insertWidget(0, self.text_password)
 
     def action_add(self):
-        if not self.box_platforms.currentText() == 'ADD NEW ACCOUNT':
+        if not self.box_accounts.currentText() == 'ADD NEW ACCOUNT':
             return
         else:
             platform = self.input_platform.toPlainText()
@@ -164,11 +163,17 @@ class Interface(QtWidgets.QWidget):
             email = self.input_email.toPlainText()
             password = self.input_password.toPlainText()
             self.manager.add_account(platform, username, email, password, self.xml_file)
+            self.box_accounts.addItem(username)
 
 
     def action_delete(self, manager):
-        print('delete')
-
+        if self.box_accounts.currentText() == 'ADD NEW ACCOUNT':
+            return
+        else:
+            account_to_del = self.box_accounts.currentText()
+            index = self.box_accounts.findText(account_to_del)
+            self.manager.delete_account(account_to_del, self.xml_file)
+            self.box_accounts.removeItem(index)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

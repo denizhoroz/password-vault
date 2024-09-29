@@ -19,9 +19,9 @@ if __name__ == '__main__':
     # Add platforms to combobox
     platforms = []
     for account in manager.accounts_list:
-        platforms.append(account['platform'])
+        platforms.append(account['username'])
 
-    interface.box_platforms.addItems(platforms)
+    interface.box_accounts.addItems(platforms)
 
 
     sys.exit(app.exec())

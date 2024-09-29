@@ -21,7 +21,12 @@ class FileManager:
             account_info['password'] = account.getElementsByTagName('password')[0].childNodes[0].nodeValue
 
             self.accounts_list.append(account_info)
-        
+    
+    def find_account(self, username):
+        for account in self.accounts_list:
+            if account['username'] == username:
+                return account['platform'], account['username'], account['email'], account['password']
+
     def add_account(self, platform, username, email, password, xml_file):
         new_account = self.domtree.createElement('account')
         new_id = str(self.create_id())

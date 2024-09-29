@@ -1,3 +1,3 @@
 <?xml version="1.0" ?><group>
     
-</group>
+<account id="1"><platform>plat1</platform><username>name1</username><email>mail1</email><password>pass1</password></account><account id="2"><platform>plat2</platform><username>name2</username><email>mail2</email><password>pass2</password></account></group>

@@ -47,6 +47,7 @@ class Interface(QtWidgets.QWidget):
         group_platform = QtWidgets.QGroupBox("Select Account")
         self.box_accounts = QtWidgets.QComboBox()
         self.box_accounts.addItem('ADD NEW ACCOUNT')
+        self.prev_ind = 0
         self.box_accounts.currentIndexChanged.connect(self.on_index_changed)
 
         add_button = QtWidgets.QPushButton('Add')
@@ -104,55 +105,66 @@ class Interface(QtWidgets.QWidget):
 
     def on_index_changed(self, index):
         if index == 0: # ADD NEW ACCOUNT is selected
+            self.add_platform_layout.removeWidget(self.text_platform)
             self.credentials_layout.removeWidget(self.text_username)
             self.credentials_layout.removeWidget(self.text_email)
             self.password_layout.removeWidget(self.text_password)
             self.text_username.deleteLater()
             self.text_email.deleteLater()
             self.text_password.deleteLater()
+            self.text_platform.deleteLater()
 
+            self.input_platform = QtWidgets.QTextEdit()
             self.input_username = QtWidgets.QTextEdit()
             self.input_email = QtWidgets.QTextEdit()
             self.input_password = QtWidgets.QTextEdit()
             self.input_username.setFixedHeight(30)
             self.input_email.setFixedHeight(30)
+            self.input_platform.setFixedHeight(30)
 
+            self.add_platform_layout.insertWidget(0, self.input_platform)
             self.credentials_layout.insertWidget(0, self.input_username)
             self.credentials_layout.insertWidget(1, self.input_email)
             self.password_layout.insertWidget(0, self.input_password)
-
-            # add a new platform entry area
-            self.add_platform_layout = QtWidgets.QVBoxLayout()
-
-            self.group_add_platform = QtWidgets.QGroupBox("Enter Platform")
-            self.input_platform = QtWidgets.QTextEdit()
-            self.input_platform.setFixedHeight(30)
-
-            self.add_platform_layout.addWidget(self.input_platform)
-            self.group_add_platform.setLayout(self.add_platform_layout)
-            self.main_layout.insertWidget(2, self.group_add_platform)
             
-
         else: # any other option is selected
-            self.credentials_layout.removeWidget(self.input_username)
-            self.credentials_layout.removeWidget(self.input_email)
-            self.password_layout.removeWidget(self.input_password)
-            self.input_username.deleteLater()
-            self.input_email.deleteLater()
-            self.input_password.deleteLater()
+            if self.prev_ind == 0:
+                self.add_platform_layout.removeWidget(self.input_platform)
+                self.credentials_layout.removeWidget(self.input_username)
+                self.credentials_layout.removeWidget(self.input_email)
+                self.password_layout.removeWidget(self.input_password)
+                self.input_username.deleteLater()
+                self.input_email.deleteLater()
+                self.input_password.deleteLater()
+                self.input_platform.deleteLater()
 
-            self.main_layout.removeWidget(self.group_add_platform)
-            self.group_add_platform.deleteLater()
+                self.text_platform = QtWidgets.QTextBrowser()
+                self.text_username = QtWidgets.QTextBrowser()
+                self.text_email = QtWidgets.QTextBrowser()
+                self.text_password = QtWidgets.QTextBrowser()
+                self.text_platform.setFixedHeight(30)
+                self.text_username.setFixedHeight(30)
+                self.text_email.setFixedHeight(30)
 
-            self.text_username = QtWidgets.QTextBrowser()
-            self.text_email = QtWidgets.QTextBrowser()
-            self.text_password = QtWidgets.QTextBrowser()
-            self.text_username.setFixedHeight(30)
-            self.text_email.setFixedHeight(30)
+                self.add_platform_layout.insertWidget(0, self.text_platform)
+                self.credentials_layout.insertWidget(0, self.text_username)
+                self.credentials_layout.insertWidget(1, self.text_email)
+                self.password_layout.insertWidget(0, self.text_password)
 
-            self.credentials_layout.insertWidget(0, self.text_username)
-            self.credentials_layout.insertWidget(1, self.text_email)
-            self.password_layout.insertWidget(0, self.text_password)
+            # Get and write credentials 
+            platform, username, email, password = self.manager.find_account(self.box_accounts.currentText())
+
+            self.text_platform.clear()
+            self.text_username.clear()
+            self.text_email.clear()
+            self.text_password.clear()
+
+            self.text_platform.append(platform)
+            self.text_username.append(username)
+            self.text_email.append(email)
+            self.text_password.append(password)
+
+        self.prev_ind = index
 
     def action_add(self):
         if not self.box_accounts.currentText() == 'ADD NEW ACCOUNT':

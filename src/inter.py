@@ -177,6 +177,8 @@ class Interface(QtWidgets.QWidget):
             self.manager.add_account(platform, username, email, password, self.xml_file)
             self.box_accounts.addItem(username)
 
+            # Raise Popup
+            self.raise_alert('new_account')
 
     def action_delete(self, manager):
         if self.box_accounts.currentText() == 'ADD NEW ACCOUNT':
@@ -186,6 +188,17 @@ class Interface(QtWidgets.QWidget):
             index = self.box_accounts.findText(account_to_del)
             self.manager.delete_account(account_to_del, self.xml_file)
             self.box_accounts.removeItem(index)
+
+    def raise_alert(self, alert_type):
+        if alert_type == 'new_account':
+            popup = QtWidgets.QMessageBox()
+            popup.setIcon(QtWidgets.QMessageBox.Information)
+            popup.setWindowTitle('Information')
+            popup.setText("New account has been added")
+            popup.setStandardButtons(QtWidgets.QMessageBox.Ok)
+
+        popup.exec_()
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

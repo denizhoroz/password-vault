@@ -1,9 +1,16 @@
 /*
-color palette reference: 
-
+color palette reference: https://colorhunt.co/palette/f5f5f5f2ead3dfd7bf3f2305
+#F5F5F5
+#F2EAD3
+#DFD7BF
+#3F2305
 
 */
 
 QWidget {
-    background-color: white;
+    background-color: #F5F5F5;
+}
+
+QGroupBox {
+    color: #3F2305;
 }
